@@ -3,6 +3,7 @@ package com.example.servlet;
 import com.example.User;
 import com.example.Warehouse;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -23,7 +24,7 @@ public class AddUserServlet extends HttpServlet {
         warehouse.addUser(user);
 
         req.setAttribute("user", user);
-        req.setAttribute("username",firstName);
+        req.setAttribute("userName",firstName);
         req.setAttribute("lastName",lastName);
         try {
             resp.sendRedirect("/add");
@@ -35,7 +36,8 @@ public class AddUserServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) {
         try {
-            req.getRequestDispatcher("jsp/add.jsp").forward(req, resp);
+            RequestDispatcher requestDispatcher=req.getRequestDispatcher("jsp/add.jsp");
+            requestDispatcher.forward(req, resp);
         } catch (ServletException | IOException e) {
             e.printStackTrace();
         }
