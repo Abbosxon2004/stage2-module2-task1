@@ -17,7 +17,7 @@ public class GetUsersServlet extends HttpServlet {
         Warehouse warehouse = Warehouse.getInstance();
         Set<User> users = warehouse.getUsers();
         req.setAttribute("users", users);
-        req.getRequestDispatcher("/add").forward(req, resp);
+        req.getRequestDispatcher("/users").forward(req, resp);
 //        resp.sendRedirect("http://localhost:8080/users");
     }
 }

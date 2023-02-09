@@ -18,6 +18,7 @@ public class AddUserServlet extends HttpServlet {
         user.setFirstName(firstName);
         user.setLastName(lastName);
         Warehouse warehouse=Warehouse.getInstance();
+
         warehouse.addUser(user);
         req.setAttribute("user", user);
 //        req.getRequestDispatcher("/add").forward(req, resp);
