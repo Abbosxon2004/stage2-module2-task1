@@ -13,17 +13,18 @@ import java.util.Set;
 
 @WebServlet("/add")
 public class AddUserServlet extends HttpServlet {
+    @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) {
         String firstName = req.getParameter("firstName");
         String lastName = req.getParameter("lastName");
-        User user = new User();
-        user.setFirstName(firstName);
-        user.setLastName(lastName);
+        User user = new User(firstName,lastName);
 
         Warehouse warehouse = Warehouse.getInstance();
         warehouse.addUser(user);
 
         req.setAttribute("user", user);
+        req.setAttribute("username",firstName);
+        req.setAttribute("lastName",lastName);
         try {
             resp.sendRedirect("/add");
         } catch (IOException e) {
@@ -31,9 +32,10 @@ public class AddUserServlet extends HttpServlet {
         }
     }
 
+    @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) {
         try {
-            req.getRequestDispatcher("/add").forward(req, resp);
+            req.getRequestDispatcher("jsp/add.jsp").forward(req, resp);
         } catch (ServletException | IOException e) {
             e.printStackTrace();
         }
