@@ -3,25 +3,39 @@ package com.example.servlet;
 import com.example.User;
 import com.example.Warehouse;
 
+import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Set;
 
 @WebServlet("/add")
 public class AddUserServlet extends HttpServlet {
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) {
         String firstName = req.getParameter("firstName");
         String lastName = req.getParameter("lastName");
-        User user=new User();
+        User user = new User();
         user.setFirstName(firstName);
         user.setLastName(lastName);
-        Warehouse warehouse=Warehouse.getInstance();
 
+        Warehouse warehouse = Warehouse.getInstance();
         warehouse.addUser(user);
+
         req.setAttribute("user", user);
-//        req.getRequestDispatcher("/add").forward(req, resp);
-        resp.sendRedirect("http://localhost:8080/add");
+        try {
+            resp.sendRedirect("/add");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) {
+        try {
+            req.getRequestDispatcher("/add").forward(req, resp);
+        } catch (ServletException | IOException e) {
+            e.printStackTrace();
+        }
     }
 }

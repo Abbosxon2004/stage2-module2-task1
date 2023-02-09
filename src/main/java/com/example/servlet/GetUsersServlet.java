@@ -13,11 +13,14 @@ import java.util.Set;
 
 @WebServlet("/users")
 public class GetUsersServlet extends HttpServlet {
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) {
         Warehouse warehouse = Warehouse.getInstance();
         Set<User> users = warehouse.getUsers();
         req.setAttribute("users", users);
-        req.getRequestDispatcher("/users").forward(req, resp);
-//        resp.sendRedirect("http://localhost:8080/users");
+        try {
+            req.getRequestDispatcher("/users").forward(req, resp);
+        } catch (ServletException | IOException e) {
+            e.printStackTrace();
+        }
     }
 }
